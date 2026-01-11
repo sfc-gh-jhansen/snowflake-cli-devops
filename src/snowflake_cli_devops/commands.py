@@ -2,7 +2,7 @@ from pathlib import Path
 
 import typer
 from snowflake.cli.api.commands.snow_typer import SnowTyperFactory
-from snowflake.cli.api.output.types import CollectionResult, CommandResult
+from snowflake.cli.api.output.types import CollectionResult, CommandResult, MessageResult
 
 from snowflake_cli_devops.manager import FileManager
 
