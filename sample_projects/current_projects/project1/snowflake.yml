@@ -1,0 +1,10 @@
+definition_version: 2
+entities:
+  my_notebook:
+    type: notebook
+    query_warehouse: xsmall
+    notebook_file: notebook.ipynb
+    runtime_environment_version: "2025.07"
+    artifacts:
+    - notebook.ipynb
+    - data.csv

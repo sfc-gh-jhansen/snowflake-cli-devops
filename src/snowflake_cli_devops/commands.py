@@ -1,6 +1,10 @@
+from pathlib import Path
+
 import typer
 from snowflake.cli.api.commands.snow_typer import SnowTyperFactory
-from snowflake.cli.api.output.types import MessageResult
+from snowflake.cli.api.output.types import CollectionResult, CommandResult
+
+from snowflake_cli_devops.manager import FileManager
 
 app = SnowTyperFactory(
     name="devops",
@@ -19,18 +23,31 @@ def greet_command(
     """
     Says hello to someone.
     """
-    return MessageResult(f"Hello, {name}! 👋")
-
+    return MessageResult(f"Hello, {name}!")
 
 @app.command(
-    name="goodbye",
+    name="list-projects",
     requires_connection=False,
-    requires_global_options=False,
+    requires_global_options=True,
 )
-def goodbye_command(
-    name: str = typer.Option("John", "--name", "-n", help="Name to say goodbye to"),
-) -> MessageResult:
+def list_projects_command(
+    root_folder: Path = typer.Option(
+        ...,
+        "--root-folder",
+        "-r",
+        help="Root folder to search for Snowflake projects.",
+        exists=True,
+        file_okay=False,
+        dir_okay=True,
+        resolve_path=True,
+    ),
+    **options,
+) -> CommandResult:
     """
-    Says goodbye to someone.
+    Lists all Snowflake projects found in the specified root folder.
+
+    A Snowflake project is identified by the presence of a snowflake.yml file.
     """
-    return MessageResult(f"Goodbye, {name}! 👋")
+    manager = FileManager(root_folder=root_folder)
+    projects = manager.list_projects()
+    return CollectionResult(projects)
