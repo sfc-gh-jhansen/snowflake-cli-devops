@@ -1,0 +1,24 @@
+definition_version: 2
+entities:
+  pkg:
+    type: application package
+    meta:
+      role: pkg_role
+    identifier: <% fn.concat_ids('myapp', '_pkg_', fn.sanitize_id(fn.get_username('unknown_user')) | lower) %>
+    manifest: app/manifest.yml
+    artifacts:
+    - src: app/*
+      dest: ./
+      processors:
+      - name: native app setup
+      - name: templates
+        properties:
+          foo: bar
+    stage: app_src.stage
+  app:
+    meta:
+      warehouse: app_wh
+    identifier: myapp_app
+    type: application
+    from:
+      target: pkg

@@ -1,0 +1,5 @@
+definition_version: 2
+entities:
+  my_image_repository:
+    type: image-repository
+    identifier: my_image_repository
